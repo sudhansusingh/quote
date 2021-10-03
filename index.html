@@ -1,0 +1,145 @@
+<!-- just type ! and whole template will be there-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+        integrity="sha512-PgQMlq+nqFLV4ylk1gwUOgm6CtIIXkKwaIHp/PAIWHzig/lKZSEGKEysh0TCVbHJXCLN7WetD8TFecIky75ZfQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+         body {
+            background-color:white;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: auto;
+            width: auto;
+            padding: 10px;
+            margin: 5px auto 0px auto;
+            background-color: #00acee;
+        }
+        #author{
+            display: flex;
+            justify-content:center;
+            align-items: flex-end;
+            color: white;
+            background-color:#00acee ;
+            padding-bottom: 10px;
+        }
+        #quotes{
+            color: white;
+        }
+        .button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            border-radius: 10px 0px 10px 0px;
+            padding: 5px 15px 5px 15px;
+            margin-right: 5px;
+            background-color: rgba(0, 255, 255, 0.534);
+            transition: transform .5s;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .button:hover{
+            background-color: black;
+            color: white;
+            transform: scale(1.5);
+            margin:20px;
+        }
+        .footer {
+            margin-top: 0px;
+            height: auto;
+            padding: auto;
+            background-color: white;
+            box-shadow: #00acee;
+        }  
+    </style>
+</head>
+
+<body id="body">
+    <div class="header">
+        <p style="color: #00acee; font-size:160%">good<b>reads</b><sub style="font-size: 50%;">QUOTES GENERATOR</sub></p>
+    </div>
+<!-- <button onclick="changecolor()">Dark</button> -->
+    <div class="main">
+        <i class="fas fa-quote-left icon"></i>
+        <h1><div id="quotes"></div></h1>   
+    </div>
+    <div id="author"></div>
+
+
+
+    <div class=" main footer">
+        <button id="newq" class=" button button1">New</button>
+        <button id="tweet" class="button">Tweet</button>
+    </div>
+
+
+    <div class="footer_final">
+       
+        <marquee> © Sudhansu_Singh</marquee>
+    
+    <script>
+        let objdata = "";
+        let rnum = 0;
+        const quotespace = document.getElementById("quotes");
+        const authorspace = document.getElementById("author");
+        const newquotebutton = document.getElementById("newq");
+        const tweet = document.getElementById("tweet");
+        const getnew = () => {
+            rnum = Math.floor(Math.random() * 100);
+            console.log(rnum);
+            //console.log(objdata[rnum].text);
+            quotedata = objdata[rnum].text;
+            quotespace.innerHTML = `${quotedata}`;
+            let author = objdata[rnum].author;
+            if (author == null) {
+                authorspace.innerHTML = " -By Unknown";
+            }
+            else {
+                authorspace.innerHTML = ` -By ${author}`;
+            }
+
+        }
+
+        const getquote = async () => {
+            const quoteapi = "https://type.fit/api/quotes";
+            try {
+                let readablestreamdata = await fetch(quoteapi);
+                objdata = await readablestreamdata.json();
+                console.log(objdata[0].text);
+                console.log(objdata[0].author);
+                getnew();
+
+            }
+            catch (error) {
+
+            }
+        };
+        const tweetfun = () => {
+            let link = `https://twitter.com/intent/tweet?text=${objdata[rnum].text}`;
+            window.open(link);
+        }
+        newquotebutton.addEventListener("click", getquote);
+        tweet.addEventListener("click", tweetfun);
+      
+
+
+
+        getquote();
+    </script>
+</body>
+
+</html>
